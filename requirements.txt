@@ -2,6 +2,7 @@ fastapi==0.115.6
 gradio==5.8.0
 uvicorn==0.32.1
 pandas==2.2.3
+pytest==8.3.4
 scikit-learn==1.5.2
 numpy==2.2.0
 scipy==1.14.1

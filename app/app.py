@@ -1,11 +1,35 @@
 from fastapi import FastAPI
 import gradio as gr
 from gradio.routes import mount_gradio_app
+from pydantic import BaseModel
 
 from .utils.prediction import predictPrice
 
 app = FastAPI()
+
+class PredictionInput(BaseModel):
+    lot_area: int
+    quality: int
+    condition: int
+    central_air: bool
+    full_bath: int
+    bedrooms: int
+    garage_cars: int
     
+@app.post("/predict")
+def predict_price(input_data: PredictionInput):
+    # Call the prediction function and return the result
+    result = predictPrice(
+        input_data.lot_area,
+        input_data.quality,
+        input_data.condition,
+        input_data.central_air,
+        input_data.full_bath,
+        input_data.bedrooms,
+        input_data.garage_cars
+    )
+    return {"Estimated Sale Price": result}
+
 def gradio_interface():
     with gr.Blocks() as demo:
         gr.Markdown("# Real Estate Price Estimator")
