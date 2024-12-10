@@ -11,25 +11,16 @@ model = SalePricePredictionModel(input_size=7)
 model.load_state_dict(torch.load("checkpoints/model.pth", weights_only=True))
 model.eval()
 
-class InputData(BaseModel):
-    lot_area: float
-    overall_quality: float
-    overall_condition: float
-    central_air: int  # Assuming binary (0 or 1)
-    full_bath: int    # Number of full bathrooms
-    bedrooms: int     # Number of bedrooms
-    garage_cars: int  # Number of garage cars
-
-def predictPrice(data: InputData):
+def predictPrice(lot_area, overall_quality, overall_condition, central_air, full_bath, bedrooms, garage_cars):
     # Convert input data to tensor
     input_tensor = np.array([[
-        data["lot_area"],
-        data["overall_quality"],
-        data["overall_condition"],
-        data["central_air"],
-        data["full_bath"],
-        data["bedrooms"],
-        data["garage_cars"]
+        lot_area,
+        overall_quality,
+        overall_condition,
+        central_air,
+        full_bath,
+        bedrooms,
+        garage_cars
     ]], dtype=np.float32)
     
     input_tensor = scaler.fit_transform(input_tensor)
